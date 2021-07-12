@@ -2,6 +2,8 @@
 const fs = require('fs');
 // Enabling HTTP function by requiring HTTP module
 const http = require('http');
+// Enabling URL function by requiring URL module
+const url = require('url');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // FILE
@@ -33,6 +35,11 @@ const http = require('http');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // SERVER
+
+// Read the data synchronously
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data);
+
 const server = http.createServer((req, res) => {
     const pathName = req.url;
 
@@ -40,7 +47,14 @@ const server = http.createServer((req, res) => {
         res.end("This is the OVERVIEW.");
     } else if (pathName === '/product') {
         res.end("This is the PRODUCT.");
-    } else {
+    } else if (pathName === '/api') {
+        res.writeHead(200, {
+            'content-type': 'application/json'
+        });
+        // Send the data in JSON format
+        res.end(data);
+    }
+    else {
         res.writeHead(404, {
             'content-type': 'text/html',
             'my-own-header': 'hello-world'
