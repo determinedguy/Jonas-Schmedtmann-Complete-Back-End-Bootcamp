@@ -5,6 +5,9 @@ const http = require('http');
 // Enabling URL function by requiring URL module
 const url = require('url');
 
+// Require (custom) replaceTemplate module
+const replaceTemplate = require('./modules/replaceTemplate');
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // FILE
 
@@ -35,28 +38,6 @@ const url = require('url');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // SERVER
-
-// Placeholder changer function
-const replaceTemplate = (temp, product) => {
-    let output = temp.replace(/{%PRODUCT_NAME%}/g, product.productName);
-    output = output.replace(/{%IMAGE%}/g, product.image);
-    output = output.replace(/{%ORIGIN%}/g, product.from);
-    output = output.replace(/{%NUTRIENT%}/g, product.nutrients);
-    output = output.replace(/{%QUANTITY%}/g, product.quantity);
-    output = output.replace(/{%PRICE%}/g, product.price);
-    output = output.replace(/{%PRODUCT_DESCRIPTION%}/g, product.description);
-    output = output.replace(/{%ID%}/g, product.id);
-
-    if(!product.organic) {
-        output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
-    }
-    else {
-        output = output.replace(/{%NOT_ORGANIC%}/g, '');
-    }
-    
-    return output;
-};
-
 // Read the data synchronously
 const templateOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8');
 const templateProduct = fs.readFileSync(`${__dirname}/templates/template-product.html`, 'utf-8');
