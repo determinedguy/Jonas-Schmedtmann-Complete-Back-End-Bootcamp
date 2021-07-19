@@ -5,6 +5,9 @@ const http = require('http');
 // Enabling URL function by requiring URL module
 const url = require('url');
 
+// Enabling slugify for slug
+const slugify = require('slugify');
+
 // Require (custom) replaceTemplate module
 const replaceTemplate = require('./modules/replaceTemplate');
 
@@ -45,6 +48,8 @@ const templateCard = fs.readFileSync(`${__dirname}/templates/template-card.html`
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
+
+const slugs = dataObj.map(element => slugify(element.productName, { lower:true }));
 
 const server = http.createServer((req, res) => {
     const { query, pathname } = url.parse(req.url, true);
